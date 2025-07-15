@@ -1,0 +1,50 @@
+services:
+  scraper:
+    build: ./scraper
+    depends_on:
+      - db
+      - selenium
+    volumes:
+      - ./scraper:/app
+    networks:
+      - scraper_net
+    environment:
+      SCRAPER_NAME: ${SCRAPER_NAME:-vacancy}
+      ENV: ${ENV:-dev}
+      HEADLESS: ${HEADLESS}
+      #  - DATABASE_URL=postgresql://postgres:password@db:5432/scraperdb
+    command:
+      - "--scraper_name=${SCRAPER_NAME}"
+      - "--env=${ENV}"
+      - "--headless=${HEADLESS}"
+
+  selenium:
+    image: selenium/standalone-chrome:123.0-20250707
+    shm_size: 2gb
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    environment:
+    - SE_SESSION_TIMEOUT=21600
+    networks:
+      - scraper_net
+
+  db:
+    image: postgres:17.5
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: vacancyScraperDb
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    networks:
+      - scraper_net
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_volume :
+
+networks:
+  scraper_net:

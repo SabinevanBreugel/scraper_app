@@ -1,0 +1,33 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editor/IDE folders
+.vscode/
+.idea/
+*.swp
+
+# Environment files
+.venv/
+.env
+*.env
+
+# Logs
+*.log
+
+# Test output / data
+*.sqlite3
+*.db
+
+# Jupyter notebooks (indien gebruikt)
+*.ipynb
+
+# OS / FS metadata
+.DS_Store
+Thumbs.db
+
+
+info.txt
+to_do.txt
